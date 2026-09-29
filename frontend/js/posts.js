@@ -5,9 +5,12 @@
 // posts waarvoor een like-verzoek onderweg is (de server wisselt aan/uit, dus nooit twee tegelijk)
 const likeBusy = new Set();
 function allPostCopies(id) {
-	return [...(feedPosts || []), ...(profilePosts || []), ...(postDetail ? [postDetail] : [])].filter(
-		p => p.id === id
-	);
+	return [
+		...(feedPosts || []),
+		...(profilePosts || []),
+		...(likedPosts || []),
+		...(postDetail ? [postDetail] : [])
+	].filter(p => p.id === id);
 }
 function findPost(id) {
 	return allPostCopies(id)[0] || null;
@@ -86,6 +89,7 @@ async function deletePost(id) {
 		const keep = p => p.id !== id;
 		if (feedPosts) feedPosts = feedPosts.filter(keep);
 		if (profilePosts) profilePosts = profilePosts.filter(keep);
+		if (likedPosts) likedPosts = likedPosts.filter(keep);
 		if (profileData && profileData.is_me) profileData.post_count--;
 		if (viewPostId === id) closeViewer();
 		else render();

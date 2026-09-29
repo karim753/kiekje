@@ -54,6 +54,7 @@ e-mailadres van een gelijkluidende gebruikersnaam.
 |---|---|---|---|
 | feed | GET | – | `{ success, posts: Post[] }` (alle posts, nieuwste eerst, max. 60, laatste 3 reacties per post) |
 | posts van gebruiker | GET | `?user=<naam>` | `{ success, posts: Post[] }` |
+| gelikete posts | GET | `?liked=1` | `{ success, posts: Post[] }` (posts die je zelf hebt geliked, laatst gelikete eerst, max. 60) |
 | één post | GET | `?id=<id>` | `{ success, post: Post }` (met alle reacties) |
 | plaatsen | POST | `{ image, caption?, location? }` | `{ success, post: Post }` |
 | bijschrift wijzigen | POST | `?action=update`, `{ id, caption }` | `{ success }` (alleen eigen post) |

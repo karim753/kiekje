@@ -24,6 +24,8 @@ function setTab(t, user) {
 	if (t === 'profile') {
 		profileData = null;
 		profilePosts = null;
+		profileTab = 'posts';
+		likedPosts = null;
 	}
 	if (t === 'notifications') notifSeenBefore = ui.seen[me.username] || '';
 	saveUi();
@@ -59,4 +61,20 @@ async function loadProfile() {
 		profileData = { error: e.message };
 	}
 	if (tab === 'profile') refreshView();
+}
+// tabblad op je eigen profiel wisselen; gelikete posts worden elke keer vers opgehaald
+async function setProfileTab(t) {
+	if (profileTab === t) return;
+	profileTab = t;
+	if (t === 'liked') likedPosts = null;
+	render();
+	if (t !== 'liked') return;
+	try {
+		const p = await api('posts.php?liked=1');
+		if (tab === 'profile' && profileTab === 'liked') likedPosts = p.posts;
+	} catch (e) {
+		likedPosts = [];
+		toast(e.message);
+	}
+	if (tab === 'profile' && profileTab === 'liked') refreshView();
 }

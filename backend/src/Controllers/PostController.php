@@ -9,6 +9,7 @@ use Kiekje\Repositories\PostRepository;
 /**
  * Posts (api/posts.php).
  *   GET                  feed  |  ?user=<naam>  posts van één gebruiker  |  ?id=<id>  één post met alle reacties
+ *                        |  ?liked=1  posts die je zelf hebt geliked
  *   POST                 {image, caption, location}  nieuwe post
  *   POST ?action=update  {id, caption}               eigen bijschrift wijzigen
  *   POST ?action=delete  {id}                        eigen post verwijderen
@@ -41,6 +42,8 @@ class PostController extends Controller
                 throw new HttpException('Post niet gevonden.', 404);
             }
             $this->ok(['post' => $post]);
+        } elseif ($this->request->hasQuery('liked')) {
+            $this->ok(['posts' => $this->posts->likedBy($this->me['id'])]);
         } elseif ($this->request->hasQuery('user')) {
             $this->ok(['posts' => $this->posts->byUser($this->me['id'], trim($this->request->query('user')))]);
         } else {

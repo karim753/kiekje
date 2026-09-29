@@ -48,6 +48,7 @@ function events() {
 	all('.story-item', x => (x.onclick = () => openStory(+x.dataset.index)));
 	bindProfileLinks(root);
 	all('[data-post]', x => (x.onclick = () => openPost(+x.dataset.post)));
+	all('[data-ptab]', b => (b.onclick = () => setProfileTab(b.dataset.ptab)));
 	all('.like', b => (b.onclick = () => toggleLike(+b.dataset.id)));
 	all(
 		'.comment-like',

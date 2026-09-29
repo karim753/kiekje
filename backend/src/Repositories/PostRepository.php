@@ -18,6 +18,19 @@ class PostRepository extends Repository
         return $this->fetch($meId, 'u.username = ?', [$username], 3);
     }
 
+    /** Posts die $meId heeft geliked, laatst gelikete eerst. */
+    public function likedBy(int $meId): array
+    {
+        return $this->fetch(
+            $meId,
+            'EXISTS(SELECT 1 FROM likes l WHERE l.post_id = p.id AND l.user_id = ?)',
+            [$meId],
+            3,
+            '(SELECT l.created_at FROM likes l WHERE l.post_id = p.id AND l.user_id = ?) DESC, p.id DESC',
+            [$meId]
+        );
+    }
+
     /** Eén post met álle reacties, of null. */
     public function find(int $meId, int $postId): ?array
     {
@@ -52,9 +65,15 @@ class PostRepository extends Repository
     }
 
     /** Haalt posts op en voegt per post de reacties toe (alle, of alleen de laatste $commentLimit). */
-    private function fetch(int $meId, string $where, array $params, ?int $commentLimit): array
-    {
-        // $where komt altijd uit deze klasse, nooit uit invoer; waarden gaan via placeholders
+    private function fetch(
+        int $meId,
+        string $where,
+        array $params,
+        ?int $commentLimit,
+        string $order = 'p.created_at DESC, p.id DESC',
+        array $orderParams = []
+    ): array {
+        // $where en $order komen altijd uit deze klasse, nooit uit invoer; waarden gaan via placeholders
         $rows = $this->all("
             SELECT p.id, p.image_url, p.caption, p.location, p.created_at,
                    u.username, u.avatar_url,
@@ -64,8 +83,8 @@ class PostRepository extends Repository
             FROM posts p
             JOIN users u ON u.id = p.user_id
             WHERE $where
-            ORDER BY p.created_at DESC, p.id DESC
-            LIMIT " . self::LIMIT, array_merge([$meId], $params));
+            ORDER BY $order
+            LIMIT " . self::LIMIT, array_merge([$meId], $params, $orderParams));
         if (!$rows) {
             return [];
         }

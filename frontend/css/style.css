@@ -1500,17 +1500,31 @@ body {
 	border-top: 1px solid var(--line);
 	margin-top: 4px;
 }
-.profile-tabs span {
+.profile-tabs {
+	gap: 48px;
+}
+.profile-tab {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 	padding: 12px 4px;
+	font: inherit;
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	border-top: 1px solid var(--text);
+	color: var(--muted);
+	background: none;
+	border: 0;
+	border-top: 1px solid transparent;
 	margin-top: -1px;
+}
+button.profile-tab {
+	cursor: pointer;
+}
+.profile-tab.active {
+	color: var(--text);
+	border-top-color: var(--text);
 }
 .grid {
 	gap: 3px;

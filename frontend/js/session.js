@@ -17,6 +17,8 @@ function syncUser(username) {
 	suggestions = null;
 	profileData = null;
 	profilePosts = null;
+	profileTab = 'posts';
+	likedPosts = null;
 	notifs = null;
 	dmTarget = null;
 	dmMessages = [];

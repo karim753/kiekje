@@ -35,7 +35,7 @@ async function setAvatar(body, msg) {
 		me.avatar = r.avatar;
 		avatars[me.username] = r.avatar;
 		if (profileData && profileData.is_me) profileData.avatar = r.avatar;
-		[...(feedPosts || []), ...(profilePosts || []), ...stories].forEach(x => {
+		[...(feedPosts || []), ...(profilePosts || []), ...(likedPosts || []), ...stories].forEach(x => {
 			if (x.user === me.username) x.avatar = r.avatar;
 		});
 		keepEditFields(render);
@@ -205,6 +205,12 @@ function profileView() {
 	const u = profileData;
 	if (!u) return `<div class="empty">Profiel laden...</div>`;
 	if (u.error) return `<div class="empty">${esc(u.error)}</div>`;
-	const posts = profilePosts || [];
-	return `<div class="profile-head">${u.is_me ? `<button class="avatar-edit" id="change-avatar" title="Profielfoto wijzigen" aria-label="Profielfoto wijzigen">${av(u.username, 78, u.avatar)}<span class="avatar-edit-badge">+</span></button>` : av(u.username, 78, u.avatar)}<div class="profile-info"><div class="profile-name">${esc(u.username)}</div><div class="profile-stats"><div><b>${u.post_count}</b>kiekjes</div><button type="button" class="stat-button" data-kind="followers"><b>${u.followers.length}</b>volgers</button><button type="button" class="stat-button" data-kind="following"><b>${u.following.length}</b>volgend</button></div></div></div><div class="profile-bio">${esc(u.bio || 'Nog geen bio.')}</div><div class="profile-actions">${u.is_me ? `<button class="btn ghost" id="edit-profile">Profiel bewerken</button><button class="btn ghost" id="logout">Uitloggen</button><button class="btn ghost icon-only" data-nav="settings" title="Instellingen" aria-label="Instellingen">${icon('settings', 18)}</button>` : `<button class="btn ${u.i_follow ? 'ghost' : ''}" id="follow">${u.i_follow ? 'Ontvolgen' : 'Volgen'}</button><button class="btn ghost" id="dm-user" data-dm="${esc(u.username)}">Bericht</button>`}</div><div class="profile-tabs"><span>${icon('grid', 14)} Posts</span></div><div class="grid">${posts.length ? posts.map(p => `<div class="grid-item" data-post="${p.id}"><img src="${esc(img(p.img))}" alt="Kiekje" loading="lazy"><div class="grid-over"><span>${icon('heart', 18, true)} ${p.like_count}</span><span>${icon('comment', 18, true)} ${p.comment_count}</span></div></div>`).join('') : `<div class="empty" style="grid-column:1/-1">Nog geen kiekjes.</div>`}</div>`;
+	const liked = u.is_me && profileTab === 'liked',
+		posts = (liked ? likedPosts : profilePosts) || [],
+		loading = liked && !likedPosts,
+		tabs = u.is_me
+			? `<button type="button" class="profile-tab ${liked ? '' : 'active'}" data-ptab="posts" aria-pressed="${!liked}">${icon('grid', 14)} Posts</button><button type="button" class="profile-tab ${liked ? 'active' : ''}" data-ptab="liked" aria-pressed="${liked}">${icon('heart', 14)} Geliked</button>`
+			: `<span class="profile-tab active">${icon('grid', 14)} Posts</span>`,
+		empty = loading ? 'Laden...' : liked ? 'Je hebt nog niks geliked.' : 'Nog geen kiekjes.';
+	return `<div class="profile-head">${u.is_me ? `<button class="avatar-edit" id="change-avatar" title="Profielfoto wijzigen" aria-label="Profielfoto wijzigen">${av(u.username, 78, u.avatar)}<span class="avatar-edit-badge">+</span></button>` : av(u.username, 78, u.avatar)}<div class="profile-info"><div class="profile-name">${esc(u.username)}</div><div class="profile-stats"><div><b>${u.post_count}</b>kiekjes</div><button type="button" class="stat-button" data-kind="followers"><b>${u.followers.length}</b>volgers</button><button type="button" class="stat-button" data-kind="following"><b>${u.following.length}</b>volgend</button></div></div></div><div class="profile-bio">${esc(u.bio || 'Nog geen bio.')}</div><div class="profile-actions">${u.is_me ? `<button class="btn ghost" id="edit-profile">Profiel bewerken</button><button class="btn ghost" id="logout">Uitloggen</button><button class="btn ghost icon-only" data-nav="settings" title="Instellingen" aria-label="Instellingen">${icon('settings', 18)}</button>` : `<button class="btn ${u.i_follow ? 'ghost' : ''}" id="follow">${u.i_follow ? 'Ontvolgen' : 'Volgen'}</button><button class="btn ghost" id="dm-user" data-dm="${esc(u.username)}">Bericht</button>`}</div><div class="profile-tabs">${tabs}</div><div class="grid">${!loading && posts.length ? posts.map(p => `<div class="grid-item" data-post="${p.id}"><img src="${esc(img(p.img))}" alt="Kiekje" loading="lazy"><div class="grid-over"><span>${icon('heart', 18, true)} ${p.like_count}</span><span>${icon('comment', 18, true)} ${p.comment_count}</span></div></div>`).join('') : `<div class="empty" style="grid-column:1/-1">${empty}</div>`}</div>`;
 }
