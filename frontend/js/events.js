@@ -36,14 +36,19 @@ function events() {
 			})
 	);
 	all('.rb-follow', b => (b.onclick = () => followSuggestion(b.dataset.follow, b)));
-	all(
-		'.dbl-like',
-		m =>
-			(m.ondblclick = e => {
-				e.preventDefault();
+	// dubbelklik (muis) én dubbeltik (telefoon): zelf de tijd tussen twee tikken meten,
+	// want op telefoons komt 'dblclick' niet altijd door
+	all('.dbl-like', m => {
+		let last = 0;
+		m.ondblclick = e => e.preventDefault();
+		m.onpointerup = e => {
+			if (e.button > 0) return; // alleen linkermuisknop / vinger
+			if (e.timeStamp - last < 350) {
+				last = 0;
 				doubleLike(+m.dataset.id, m);
-			})
-	);
+			} else last = e.timeStamp;
+		};
+	});
 	on('addstory', addStory);
 	all('.story-item', x => (x.onclick = () => openStory(+x.dataset.index)));
 	bindProfileLinks(root);
