@@ -18,6 +18,7 @@ Daarnaast staat er een los **Vue**-voorbeeld in `vue/`.
 - **Berichten (DM's)**: inbox, live gesprek, gelezen/verzonden, ongelezen-teller
 - **Meldingen**: likes, reacties, nieuwe volgers, story-likes en reactie-likes, gegroepeerd per periode
 - **Zoeken** naar gebruikers (React-component, zoekt live mee)
+- **Weergave**: licht, donker of automatisch (volgt je apparaat), via Instellingen (tandwiel)
 - **Responsive**: onder-/bovenbalk op telefoon, zijbalk + voorstellen op groot scherm
 
 ## Starten (XAMPP)

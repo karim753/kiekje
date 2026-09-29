@@ -23,7 +23,7 @@ function UserRow({ user }) {
 			className="user-row profile-row"
 			data-user=${user.username}
 			role="button"
-			tabIndex="0"
+			tabindex="0"
 			onClick=${open}
 			onKeyDown=${e => e.key === 'Enter' && open()}
 		>
@@ -84,7 +84,8 @@ function SearchPage({ initialQuery }) {
 	let body;
 	if (error) body = html`<div className="empty">${error}</div>`;
 	else if (results === null) body = html`<${SearchSkeleton} />`;
-	else if (!results.length) body = html`<div className="empty">Geen gebruikers gevonden voor "${query}".</div>`;
+	else if (!results.length)
+		body = html`<div className="empty">Geen gebruikers gevonden voor "${query}".</div>`;
 	else body = results.map(u => html`<${UserRow} key=${u.username} user=${u} />`);
 
 	return html`
@@ -95,7 +96,7 @@ function SearchPage({ initialQuery }) {
 				value=${query}
 				onChange=${e => setQuery(e.target.value)}
 				placeholder="🔍 Zoek gebruikers..."
-				autoComplete="off"
+				autocomplete="off"
 				aria-label="Zoek gebruikers"
 			/>
 		</div>

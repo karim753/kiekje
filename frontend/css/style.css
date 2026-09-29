@@ -1,11 +1,51 @@
+/* ---------- kleuren: donker (standaard) en licht ----------
+   Het thema staat op <html data-theme="dark|light">. Zonder data-theme ("Automatisch")
+   volgt de app de instelling van het apparaat (prefers-color-scheme). */
 :root {
+	color-scheme: dark;
 	--bg: #14120f;
 	--surface: #1f1c18;
+	--surface2: #2a251f;
 	--accent: #e8a33d;
+	--accent-text: #e8a33d; /* accentkleur als tekst (in licht iets donkerder, voor contrast) */
 	--accent2: #d9667a;
 	--text: #f5f1ea;
 	--muted: #8a8378;
 	--line: #332e27;
+	--danger: #ef7d7d;
+	--bar-bg: rgba(20, 18, 15, 0.86);
+	--shadow: rgba(0, 0, 0, 0.45);
+}
+:root[data-theme='light'] {
+	color-scheme: light;
+	--bg: #faf7f2;
+	--surface: #efe9df;
+	--surface2: #e4ddd1;
+	--accent: #e8a33d;
+	--accent-text: #9a5d0c;
+	--accent2: #c8465f;
+	--text: #1f1b16;
+	--muted: #6f675c;
+	--line: #e0d9cd;
+	--danger: #c0392b;
+	--bar-bg: rgba(250, 247, 242, 0.88);
+	--shadow: rgba(60, 45, 20, 0.18);
+}
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme]) {
+		color-scheme: light;
+		--bg: #faf7f2;
+		--surface: #efe9df;
+		--surface2: #e4ddd1;
+		--accent-text: #9a5d0c;
+		--accent2: #c8465f;
+		--text: #1f1b16;
+		--muted: #6f675c;
+		--line: #e0d9cd;
+		--danger: #c0392b;
+		--bar-bg: rgba(250, 247, 242, 0.88);
+		--shadow: rgba(60, 45, 20, 0.18);
+	}
 }
 * {
 	box-sizing: border-box;
@@ -215,7 +255,7 @@ button {
 .comment-box button {
 	border: 0;
 	background: none;
-	color: var(--accent);
+	color: var(--accent-text);
 	font-weight: 700;
 }
 .profile-head {
@@ -417,7 +457,7 @@ button {
 	padding: 10px;
 }
 .danger {
-	color: #ef7d7d !important;
+	color: var(--danger) !important;
 }
 .auth {
 	min-height: 100vh;
@@ -446,7 +486,7 @@ button {
 	margin: 5px 0;
 }
 .link {
-	color: var(--accent);
+	color: var(--accent-text);
 	cursor: pointer;
 }
 .muted {
@@ -842,7 +882,7 @@ button {
 	padding: 0;
 }
 .avatar {
-	background: #3a342c;
+	background: var(--surface2);
 }
 .crop-backdrop {
 	position: fixed;
@@ -1053,7 +1093,7 @@ button:disabled {
 	font-size: 13px;
 	z-index: 50;
 	max-width: 90vw;
-	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 4px 18px var(--shadow);
 }
 .toast[hidden] {
 	display: none;
@@ -1112,7 +1152,7 @@ body {
 	z-index: 12;
 	display: block;
 	padding: 0;
-	background: rgba(20, 18, 15, 0.82);
+	background: var(--bar-bg);
 	backdrop-filter: saturate(1.4) blur(14px);
 	-webkit-backdrop-filter: saturate(1.4) blur(14px);
 }
@@ -1319,7 +1359,7 @@ body {
 .menu-box {
 	border-radius: 10px;
 	overflow: hidden;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+	box-shadow: 0 10px 30px var(--shadow);
 	top: 30px;
 }
 .menu-box button:hover {
@@ -1394,7 +1434,7 @@ body {
 }
 .modal {
 	border-radius: 14px;
-	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 20px 60px var(--shadow);
 }
 .modal-backdrop {
 	backdrop-filter: blur(3px);
@@ -1518,7 +1558,7 @@ body {
 	width: 100%;
 	max-width: 470px;
 	padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
-	background: rgba(20, 18, 15, 0.9);
+	background: var(--bar-bg);
 	backdrop-filter: blur(14px);
 	-webkit-backdrop-filter: blur(14px);
 }
@@ -1733,7 +1773,7 @@ body {
 	padding: 7px 0;
 }
 .rb-follow {
-	color: var(--accent) !important;
+	color: var(--accent-text) !important;
 	font-weight: 700;
 	font-size: 12px;
 }
@@ -1745,4 +1785,119 @@ body {
 	font-size: 11px;
 	color: var(--muted);
 	opacity: 0.7;
+}
+
+/* ---------- instellingen ---------- */
+.modal-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 6px;
+}
+.modal-head h3 {
+	margin: 0;
+}
+.set-label {
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: var(--muted);
+	margin: 16px 0 10px;
+}
+.theme-options {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+}
+.theme-opt {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 10px 6px 12px;
+	border: 2px solid var(--line);
+	border-radius: 12px;
+	cursor: pointer;
+	text-align: center;
+	transition:
+		border-color 0.15s,
+		background 0.15s;
+}
+.theme-opt:hover {
+	background: var(--surface2);
+}
+.theme-opt.on {
+	border-color: var(--accent);
+}
+.theme-opt input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+.theme-opt:focus-within {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+.theme-opt b {
+	font-size: 13px;
+}
+.theme-opt small {
+	font-size: 10.5px;
+	color: var(--muted);
+	min-height: 13px;
+}
+/* mini-voorbeeld van het scherm, met vaste kleuren */
+.theme-prev {
+	width: 100%;
+	max-width: 92px;
+	aspect-ratio: 4 / 3;
+	border-radius: 8px;
+	border: 1px solid var(--line);
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	overflow: hidden;
+}
+.theme-prev i {
+	display: block;
+	height: 7px;
+	border-radius: 4px;
+}
+.theme-prev i:nth-child(2) {
+	width: 70%;
+}
+.theme-prev i:nth-child(3) {
+	width: 40%;
+	background: #e8a33d !important;
+}
+.theme-prev-dark {
+	background: #14120f;
+}
+.theme-prev-dark i {
+	background: #3a342c;
+}
+.theme-prev-light {
+	background: #faf7f2;
+}
+.theme-prev-light i {
+	background: #e0d9cd;
+}
+.theme-prev-auto {
+	background: linear-gradient(135deg, #faf7f2 50%, #14120f 50%);
+}
+.theme-prev-auto i {
+	background: #8a8378;
+}
+.set-hint {
+	font-size: 12px;
+	color: var(--muted);
+	margin-top: 12px;
+}
+.profile-actions .btn.icon-only {
+	flex: 0 0 auto;
+	display: grid;
+	place-items: center;
+	padding: 8px 12px;
 }

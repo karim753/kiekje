@@ -29,7 +29,10 @@ function events() {
 				const k = b.dataset.nav;
 				if (k === 'new') openUpload();
 				else if (k === 'logout') logout();
-				else setTab(k);
+				else if (k === 'settings') {
+					modal = 'settings';
+					render();
+				} else setTab(k);
 			})
 	);
 	all('.rb-follow', b => (b.onclick = () => followSuggestion(b.dataset.follow, b)));
@@ -237,6 +240,18 @@ function events() {
 		// nieuwe berichten ophalen zolang het gesprek open staat
 		clearInterval(dmPoll);
 		dmPoll = setInterval(refreshThread, 4000);
+	}
+	if (modal === 'settings') {
+		const sluit = () => {
+			modal = null;
+			render();
+		};
+		back.onclick = e => {
+			if (e.target === back) sluit();
+		};
+		on('closesettings', sluit);
+		all('input[name="theme"]', r => (r.onchange = () => setTheme(r.value)));
+		document.querySelector('input[name="theme"]:checked')?.focus({ preventScroll: true });
 	}
 	if (modal === 'story') {
 		back.onclick = e => {

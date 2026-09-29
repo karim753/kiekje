@@ -16,6 +16,14 @@ function modalHtml() {
 	}
 	if (modal === 'dm')
 		return `<div class="modal-backdrop" id="back"><div class="modal dm-modal"><div class="dm-head">${av(dmTarget, 34)}<b class="dm-name user-link" data-user="${esc(dmTarget)}">${esc(dmTarget)}</b><button class="icon-btn" id="closedm" style="margin-left:auto" aria-label="Sluiten">✕</button></div><div class="dm-thread">${dmThreadHtml()}</div><div class="dm-compose"><input id="dm-input" placeholder="Typ je bericht..." autocomplete="off" maxlength="2000"><button class="btn" id="dm-send">Verstuur</button></div></div></div>`;
+	if (modal === 'settings') {
+		const opties = [
+			['auto', 'Automatisch', 'Volgt je apparaat'],
+			['light', 'Licht', ''],
+			['dark', 'Donker', '']
+		];
+		return `<div class="modal-backdrop" id="back"><div class="modal" role="dialog" aria-label="Instellingen"><div class="modal-head"><h3>Instellingen</h3><button class="icon-btn" id="closesettings" aria-label="Sluiten">✕</button></div><div class="set-label">Weergave</div><div class="theme-options" role="radiogroup" aria-label="Weergave">${opties.map(([v, label, uitleg]) => `<label class="theme-opt ${ui.theme === v ? 'on' : ''}"><input type="radio" name="theme" value="${v}" ${ui.theme === v ? 'checked' : ''}><span class="theme-prev theme-prev-${v}"><i></i><i></i><i></i></span><b>${label}</b><small>${uitleg}</small></label>`).join('')}</div><div class="set-hint">Je keuze wordt in deze browser onthouden.</div></div></div>`;
+	}
 	if (modal === 'story') {
 		const s = stories[storyIndex];
 		if (!s) return '';

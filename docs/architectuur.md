@@ -65,6 +65,13 @@ function SearchPage({ initialQuery }) {
 - **Koppeling met de rest**: `render()` zet een lege `<div id="react-search">` neer; daarna maakt `mountSearch()`
   er een React-root in. Vóór elke nieuwe `render()` ruimt `unmountSearch()` die netjes op.
 
+### Licht en donker thema
+
+Alle kleuren staan als CSS-variabelen bovenaan `css/style.css` (`--bg`, `--text`, ...). Het thema staat op
+`<html data-theme="light|dark">`; zonder `data-theme` ("Automatisch") volgt de app `prefers-color-scheme` van het apparaat.
+De keuze staat in `localStorage` en wordt al in de `<head>` toegepast, zodat de pagina bij het laden niet eerst in het
+verkeerde thema oplicht. Instellingen openen via het tandwiel (zijbalk of profiel).
+
 ### Sessie en meerdere tabbladen
 
 De PHP-sessie is leidend. Bij het openen van de app, bij terugkeren naar het tabblad en in elk DM-antwoord

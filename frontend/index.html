@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Kiekje</title>
 <meta name="description" content="Kiekje: deel foto's en stories, like en reageer, volg vrienden en stuur berichten.">
-<meta name="theme-color" content="#14120F">
+<meta name="theme-color" content="#14120F" id="theme-color">
+<!-- thema (licht/donker) meteen toepassen, vóór de pagina getekend wordt, zodat hij niet even verkeerd oplicht -->
+<script>
+	try {
+		var t = JSON.parse(localStorage.getItem('kiekje_ui_v3') || '{}').theme;
+		if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+	} catch (e) {}
+</script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

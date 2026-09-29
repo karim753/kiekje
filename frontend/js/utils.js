@@ -11,12 +11,35 @@ function esc(s = '') {
 function img(u) {
 	return !u ? '' : /^(data:|https?:|blob:)/.test(u) ? u : '../backend/' + u;
 }
-// standaard profielfoto (grijs silhouet) voor iedereen zonder eigen foto
-const DEFAULT_AVATAR =
+// ---------- thema (licht / donker) ----------
+// Het thema dat nu echt zichtbaar is: bij "auto" hangt dat af van het apparaat.
+function effectiveTheme() {
+	if (ui.theme === 'light' || ui.theme === 'dark') return ui.theme;
+	return window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+// Zet het thema op <html data-theme> (zie de kleuren bovenaan css/style.css).
+function applyTheme() {
+	if (ui.theme === 'auto') delete document.documentElement.dataset.theme;
+	else document.documentElement.dataset.theme = ui.theme;
+	// kleur van de adresbalk op telefoons
+	document
+		.getElementById('theme-color')
+		?.setAttribute('content', effectiveTheme() === 'light' ? '#FAF7F2' : '#14120F');
+}
+function setTheme(theme) {
+	ui.theme = theme;
+	saveUi();
+	applyTheme();
+	render(); // opnieuw tekenen: o.a. de standaard profielfoto heeft per thema andere kleuren
+}
+
+// standaard profielfoto (grijs silhouet) voor iedereen zonder eigen foto, in de kleuren van het thema
+const silhouet = (bg, fg) =>
 	'data:image/svg+xml,' +
 	encodeURIComponent(
-		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#3A342C"/><circle cx="32" cy="25" r="11" fill="#8A8378"/><path d="M11 58c1.5-11.5 10-18 21-18s19.5 6.5 21 18z" fill="#8A8378"/></svg>'
+		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="${bg}"/><circle cx="32" cy="25" r="11" fill="${fg}"/><path d="M11 58c1.5-11.5 10-18 21-18s19.5 6.5 21 18z" fill="${fg}"/></svg>`
 	);
+const DEFAULT_AVATARS = { dark: silhouet('#3A342C', '#8A8378'), light: silhouet('#E4DDD1', '#A39A8C') };
 // laatst bekende profielfoto per gebruiker (gevuld vanuit elke API-response), zodat ook plekken zonder avatar-veld de juiste foto tonen
 const avatars = {};
 function rememberAvatars(v, depth = 0) {
@@ -35,7 +58,7 @@ function rememberAvatars(v, depth = 0) {
 function avatarSrc(name, url) {
 	name = String(name || '');
 	const src = url || (name in avatars ? avatars[name] : null);
-	return src ? img(src) : DEFAULT_AVATAR;
+	return src ? img(src) : DEFAULT_AVATARS[effectiveTheme()];
 }
 function av(name, size, url) {
 	return `<img class="avatar" src="${esc(avatarSrc(name, url))}" alt="" style="width:${size}px;height:${size}px">`;

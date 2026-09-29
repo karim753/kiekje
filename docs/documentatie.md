@@ -114,7 +114,7 @@ zijn ook geautomatiseerd als browsertests in `tests/e2e/` (zie de README daar).
   AVG-sectie) en waarom.
 - **Toegankelijkheid** (accessibility): lichte tekst op donkere achtergrond (voldoende
   contrast), `alt`-teksten bij foto's, `aria-label` op knoppen met alleen een icoon,
-  `lang="nl"`, en toetsenbordbediening (Enter om te versturen, Esc sluit vensters,
+  `lang="nl"`, een licht en donker thema (Instellingen, of automatisch volgens het apparaat), en toetsenbordbediening (Enter om te versturen, Esc sluit vensters,
   pijltjes in stories, zoekresultaten met Tab/Enter).
 
 ## 9. Netwerk & bestandssystemen

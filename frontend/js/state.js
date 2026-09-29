@@ -13,6 +13,7 @@ try {
 	ui = JSON.parse(localStorage.getItem(UI_KEY) || '{}') || {};
 } catch (e) {}
 ui.seen = ui.seen || {};
+ui.theme = ['light', 'dark'].includes(ui.theme) ? ui.theme : 'auto'; // weergave: auto (volgt apparaat), light, dark
 let me = null,
 	sessionChecked = false;
 let tab = ui.tab || 'feed',
@@ -41,6 +42,6 @@ let dmTarget = null,
 
 function saveUi() {
 	try {
-		localStorage.setItem(UI_KEY, JSON.stringify({ tab, viewUser, seen: ui.seen }));
+		localStorage.setItem(UI_KEY, JSON.stringify({ tab, viewUser, seen: ui.seen, theme: ui.theme }));
 	} catch (e) {}
 }

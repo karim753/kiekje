@@ -28,7 +28,7 @@ function navIcon(k, ic) {
 		: icon(ic, 24, navActive(k) && (ic === 'home' || ic === 'bell'));
 }
 function sidenav() {
-	return `<nav class="sidenav" aria-label="Hoofdmenu"><div class="brand side-brand"><span class="dot"></span>Kiekje</div>${NAV.map(([k, ic, label]) => `<button class="side-item ${navActive(k) ? 'active' : ''}" data-nav="${k}"><span class="side-ic">${navIcon(k, ic)}${navBadge(k)}</span><span>${label}</span></button>`).join('')}<button class="side-item side-logout" data-nav="logout"><span class="side-ic">${icon('logout')}</span><span>Uitloggen</span></button></nav>`;
+	return `<nav class="sidenav" aria-label="Hoofdmenu"><div class="brand side-brand"><span class="dot"></span>Kiekje</div>${NAV.map(([k, ic, label]) => `<button class="side-item ${navActive(k) ? 'active' : ''}" data-nav="${k}"><span class="side-ic">${navIcon(k, ic)}${navBadge(k)}</span><span>${label}</span></button>`).join('')}<button class="side-item side-settings ${modal === 'settings' ? 'active' : ''}" data-nav="settings"><span class="side-ic">${icon('settings')}</span><span>Instellingen</span></button><button class="side-item side-logout" data-nav="logout"><span class="side-ic">${icon('logout')}</span><span>Uitloggen</span></button></nav>`;
 }
 function topbar() {
 	return `<header class="topbar"><div class="topbar-row"><div class="brand"><span class="dot"></span>Kiekje</div><div class="topbar-actions"><button class="icon-btn" data-nav="new" aria-label="Nieuw kiekje">${icon('plus')}</button><button class="icon-btn ${tab === 'messages' ? 'active' : ''}" data-nav="messages" aria-label="Berichten">${icon('send')}${navBadge('messages')}</button></div></div><div class="film-strip">${'<span></span>'.repeat(26)}</div></header>`;

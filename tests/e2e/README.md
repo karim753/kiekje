@@ -38,6 +38,7 @@ Staat Chrome of XAMPP ergens anders, zet dan `CHROME_PATH`, `HTDOCS` of `MYSQL_B
 | `bijsnijden.test.js` | bijsnijdvenster: zoomen, verplaatsen, draaien, annuleren |
 | `bugfixes.test.js` | opgeloste bugs blijven opgelost: `@` in naam, uitloggen via link, geen cache, stories per gebruiker, snel dubbelklikken/liken, mislukte story-reactie |
 | `layout.test.js` | zijbalk/onderbalk per schermgrootte, voorstellen, dubbelklik-like |
+| `thema.test.js` | instellingen: licht, donker en automatisch; keuze blijft bewaard, geen donkere flits bij herladen |
 | `zoeken.test.js` | zoekpagina is een React-component: live zoeken, geen resultaten, profiel openen, zoekterm bewaard |
 | `alle-tests.js` | draait alle tests, elk met een schone testdatabase |
 | `testomgeving.js` | zet de testomgeving op of ruimt hem op |
