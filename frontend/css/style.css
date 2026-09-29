@@ -193,10 +193,11 @@ button {
 .post-loc {
 	margin-top: 2px;
 }
+/* hele foto altijd zichtbaar: staande/liggende foto's krijgen randen i.p.v. bijgesneden te worden */
 .post-media {
 	width: 100%;
 	aspect-ratio: 1;
-	object-fit: cover;
+	object-fit: contain;
 	background: var(--surface);
 	display: block;
 	cursor: pointer;
@@ -1542,6 +1543,7 @@ button.profile-tab {
 	width: 100%;
 	aspect-ratio: 1;
 	object-fit: cover;
+	object-position: center 25%; /* miniatuur: bij staande foto's het bovenste deel (gezichten) tonen */
 	display: block;
 	transition: transform 0.3s;
 }
@@ -1917,4 +1919,14 @@ button.profile-tab {
 	display: grid;
 	place-items: center;
 	padding: 8px 12px;
+}
+/* foto in het post-venster: hele foto zichtbaar, nooit hoger dan het scherm */
+.viewer-media {
+	display: block;
+	width: 100%;
+	max-height: 70vh;
+	object-fit: contain;
+	margin-top: 10px;
+	background: var(--surface);
+	border-radius: 6px;
 }
