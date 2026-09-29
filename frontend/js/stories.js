@@ -15,6 +15,15 @@ function addStory() {
 		}
 	});
 }
+// alle stories van dezelfde gebruiker als stories[i] (de server levert ze per gebruiker bij elkaar aan)
+function storiesOfUser(i) {
+	const user = stories[i]?.user;
+	let start = i;
+	while (start > 0 && stories[start - 1].user === user) start--;
+	let end = i;
+	while (end < stories.length - 1 && stories[end + 1].user === user) end++;
+	return { start, end, list: stories.slice(start, end + 1) };
+}
 function openStory(i) {
 	if (!stories[i]) return;
 	storyIndex = i;
