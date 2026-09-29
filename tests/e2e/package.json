@@ -1,0 +1,13 @@
+{
+  "name": "kiekje-browsertests",
+  "private": true,
+  "description": "Browsertests voor Kiekje (Puppeteer) die in een afgeschermde testomgeving draaien",
+  "scripts": {
+    "test": "node alle-tests.js",
+    "opzetten": "node testomgeving.js opzetten",
+    "opruimen": "node testomgeving.js opruimen"
+  },
+  "dependencies": {
+    "puppeteer-core": "^23.0.0"
+  }
+}

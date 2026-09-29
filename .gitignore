@@ -1,0 +1,10 @@
+# geüploade foto's (wel de beveiligingsregels in .htaccess bewaren)
+backend/uploads/*
+!backend/uploads/.htaccess
+
+# browsertests
+tests/e2e/node_modules/
+tests/e2e/output/
+
+# PHP-afhankelijkheden (composer install)
+vendor/

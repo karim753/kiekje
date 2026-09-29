@@ -1,0 +1,3 @@
+// Laat tests knoppen aanklikken via hun oude id (#navfeed, #navnot, ...): klikt de zichtbare [data-nav]-knop.
+const MAP={'#navnot':'notifications','#navfeed':'feed','#navprofile':'profile','#navsearch':'search','#opendms':'messages','#newpost':'new','#navnew':'new'};
+module.exports=function patch(p){const orig=p.click.bind(p);p.click=async(sel,o)=>{if(MAP[sel]){await p.waitForFunction(k=>[...document.querySelectorAll(`[data-nav="${k}"]`)].some(e=>e.offsetParent),{timeout:6000},MAP[sel]);return p.evaluate(k=>[...document.querySelectorAll(`[data-nav="${k}"]`)].find(e=>e.offsetParent).click(),MAP[sel])}return orig(sel,o)};return p};

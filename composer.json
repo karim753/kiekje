@@ -1,0 +1,19 @@
+{
+    "name": "kiekje/kiekje",
+    "description": "Kiekje: Instagram-achtige webapp (PHP-backend met OOP, JavaScript/React-frontend)",
+    "type": "project",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kiekje\\": "backend/src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

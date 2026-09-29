@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Kiekje</title>
+<meta name="description" content="Kiekje: deel foto's en stories, like en reageer, volg vrienden en stuur berichten.">
+<meta name="theme-color" content="#14120F">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="root"></div>
+<!-- Gewone (geen module-)scripts: ze delen dezelfde globale variabelen. De volgorde is belangrijk:
+     state/api/utils eerst, main.js (start de app) als laatste. -->
+<!-- React 18 + htm (lokaal, geen internet of build-stap nodig); gebruikt door js/search.js -->
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="vendor/htm.umd.js"></script>
+<script src="js/state.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/session.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/posts.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/stories.js"></script>
+<script src="js/messages.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/feed.js"></script>
+<script src="js/search.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/events.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

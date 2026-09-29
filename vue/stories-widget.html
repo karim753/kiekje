@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+  Los Vue 3-component: "Verhalen-balk" (Stories bar).
+  Los van de React-hoofdapp toegevoegd om het criterium "Vue" apart te demonstreren.
+  In een echte Kiekje-build zou je niet React én Vue mengen in dezelfde app;
+  dit bestand bewijst Vue-kennis als losstaand component / los te beoordelen onderdeel.
+-->
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Kiekje — Vue Verhalen-widget</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<style>
+  body{background:#14120F;color:#F5F1EA;font-family:sans-serif;margin:0;padding:24px;}
+  .stories{display:flex;gap:14px;overflow-x:auto;}
+  .story{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;}
+  .ring{width:58px;height:58px;border-radius:50%;padding:2px;
+    background:conic-gradient(from 210deg,#E8A33D,#D9667A,#E8A33D);}
+  .ring.seen{background:#332E27;}
+  .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #14120F;}
+  .name{font-size:11px;color:#8A8378;}
+  h2{font-family:serif;}
+  button{background:#E8A33D;border:none;padding:8px 14px;font-weight:700;cursor:pointer;margin-top:16px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <h2>Verhalen ({{ unseenCount }} nieuw)</h2>
+  <div class="stories">
+    <div class="story" v-for="s in stories" :key="s.id" @click="markSeen(s)">
+      <div class="ring" :class="{seen: s.seen}">
+        <img :src="s.avatar">
+      </div>
+      <div class="name">{{ s.name }}</div>
+    </div>
+  </div>
+  <button @click="addStory">+ Verhaal toevoegen</button>
+</div>
+
+<script>
+const { createApp, ref, computed } = Vue;
+
+createApp({
+  setup(){
+    const stories = ref([
+      {id:1, name:"mila.k", avatar:"https://i.pravatar.cc/80?img=32", seen:false},
+      {id:2, name:"finn_v", avatar:"https://i.pravatar.cc/80?img=15", seen:false},
+      {id:3, name:"sanne", avatar:"https://i.pravatar.cc/80?img=47", seen:true},
+    ]);
+
+    const unseenCount = computed(() => stories.value.filter(s => !s.seen).length);
+
+    function markSeen(story){
+      story.seen = true;
+    }
+    function addStory(){
+      const id = Date.now();
+      stories.value.push({id, name:"jij", avatar:"https://i.pravatar.cc/80?img=68", seen:false});
+    }
+
+    return { stories, unseenCount, markSeen, addStory };
+  }
+}).mount("#app");
+</script>
+</body>
+</html>

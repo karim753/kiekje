@@ -1,0 +1,6 @@
+# Altijd de nieuwste versie van de pagina, scripts en stijl laden (geen verouderde kopie uit de browsercache)
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html?|js|css)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>

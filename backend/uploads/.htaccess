@@ -1,0 +1,5 @@
+# Alleen afbeeldingen serveren, nooit scripts uitvoeren
+Options -Indexes
+<FilesMatch "\.(?i:php\d?|phtml|phar|html?|js|svg)$">
+    Require all denied
+</FilesMatch>

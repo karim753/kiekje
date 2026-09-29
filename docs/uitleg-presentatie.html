@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Kiekje — Zo werkt het (uitleg voor de presentatie)</title>
+<style>
+	@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+	* { box-sizing: border-box; }
+	body { font-family: 'Segoe UI', Arial, sans-serif; color: #222; line-height: 1.55; font-size: 11.5pt; margin: 0 auto; max-width: 820px; padding: 24px; }
+	h1 { font-family: Georgia, serif; font-size: 30pt; margin: 0 0 6px; color: #14120F; }
+	h2 { font-family: Georgia, serif; font-size: 19pt; color: #14120F; border-bottom: 3px solid #E8A33D; padding-bottom: 4px; margin-top: 34px; page-break-after: avoid; }
+	h3 { font-size: 13.5pt; color: #8a4f00; margin: 20px 0 6px; page-break-after: avoid; }
+	p { margin: 6px 0 10px; }
+	.cover { text-align: center; padding: 70px 0 30px; page-break-after: always; }
+	.cover .sub { font-size: 14pt; color: #666; }
+	.cover .emoji { font-size: 64pt; margin: 30px 0; }
+	.box { border-radius: 10px; padding: 12px 16px; margin: 14px 0; page-break-inside: avoid; }
+	.simpel { background: #FFF6E5; border-left: 6px solid #E8A33D; }
+	.zeg { background: #EAF4EF; border-left: 6px solid #6E9887; }
+	.let { background: #FCEBEE; border-left: 6px solid #D9667A; }
+	.box b.kop { display: block; margin-bottom: 4px; }
+	code { background: #f1efe9; padding: 1px 5px; border-radius: 4px; font-size: 10pt; font-family: Consolas, monospace; }
+	pre { background: #1F1C18; color: #F5F1EA; padding: 12px 14px; border-radius: 8px; font-size: 9.5pt; overflow-x: auto; page-break-inside: avoid; white-space: pre-wrap; }
+	pre .c { color: #E8A33D; }
+	table { border-collapse: collapse; width: 100%; margin: 10px 0 14px; font-size: 10.5pt; page-break-inside: avoid; }
+	th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; }
+	th { background: #14120F; color: #fff; }
+	tr:nth-child(even) td { background: #faf8f4; }
+	figure { margin: 14px 0; text-align: center; page-break-inside: avoid; }
+	figure img { max-width: 100%; border-radius: 8px; border: 1px solid #ddd; }
+	figcaption { font-size: 9.5pt; color: #666; margin-top: 4px; }
+	.toc { columns: 2; font-size: 11pt; }
+	.toc li { margin: 2px 0; }
+	.pb { page-break-before: always; }
+	.plaatje { font-size: 26pt; float: right; margin: 0 0 6px 12px; }
+	ol li, ul li { margin: 3px 0; }
+	.klein { font-size: 9.5pt; color: #777; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+	<h1>Kiekje 📸</h1>
+	<div class="sub">Zo werkt de app — heel simpel uitgelegd</div>
+	<div class="emoji">🍽️ 👨‍🍳 🧊 📚</div>
+	<p>Uitleg van alle code, met plaatjes, een spiekbriefje voor de presentatie<br>en antwoorden op vragen die de docent kan stellen.</p>
+	<p class="klein">Tip: in de oranje vakjes staat de simpele uitleg, in de groene vakjes staat wat je hardop kunt zeggen.</p>
+</div>
+
+<h2>Inhoud</h2>
+<ol class="toc">
+	<li>Wat is Kiekje?</li>
+	<li>Het grote plaatje: een restaurant</li>
+	<li>Wat kan de app allemaal?</li>
+	<li>De mappen: waar staat wat?</li>
+	<li>De eetzaal: de frontend</li>
+	<li>React: de zoekpagina van LEGO</li>
+	<li>De ober: de API</li>
+	<li>De keuken: de backend (OOP)</li>
+	<li>De voorraadkast: de database</li>
+	<li>Zo gaat het stap voor stap</li>
+	<li>Veiligheid: de sloten op de deur</li>
+	<li>Testen: de robot die alles uitprobeert</li>
+	<li>De tekeningen (diagrammen)</li>
+	<li>Spiekbriefje voor de presentatie</li>
+	<li>Vragen die de docent kan stellen</li>
+	<li>Woordenlijst</li>
+</ol>
+
+<!-- ================================================================== -->
+<h2>1. Wat is Kiekje?</h2>
+<p><span class="plaatje">📸</span>Kiekje is een app zoals <b>Instagram</b>. Je kunt foto's delen met je vrienden.
+Je kunt foto's leuk vinden, erop reageren, andere mensen volgen en berichtjes sturen.</p>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+Kiekje is een groot <b>fotoboek dat iedereen samen maakt</b>. Iedereen mag er foto's in plakken.
+En iedereen mag bij andermans foto een hartje tekenen of iets liefs schrijven.</div>
+<p>De app is gemaakt met:</p>
+<ul>
+	<li><b>HTML</b> — de stenen van het huis (wat er op het scherm staat)</li>
+	<li><b>CSS</b> — de verf en het behang (kleuren, vormen, hoe het eruitziet)</li>
+	<li><b>JavaScript</b> — de elektriciteit (knoppen die iets doen)</li>
+	<li><b>React</b> — LEGO-blokjes voor de zoekpagina</li>
+	<li><b>PHP</b> — de kok in de keuken (de server)</li>
+	<li><b>MySQL</b> — de voorraadkast (de database, waar alles bewaard wordt)</li>
+</ul>
+
+<!-- ================================================================== -->
+<h2>2. Het grote plaatje: een restaurant</h2>
+<p>De makkelijkste manier om de app te snappen: stel je een <b>restaurant</b> voor.</p>
+<table>
+	<tr><th>In het restaurant</th><th>In Kiekje</th><th>Waar in de code?</th></tr>
+	<tr><td>🍽️ <b>De eetzaal</b>: waar jij zit en de menukaart ziet</td><td>De <b>frontend</b>: wat je in de browser ziet</td><td><code>frontend/</code></td></tr>
+	<tr><td>🧑‍🍳‍ <b>De ober</b>: brengt jouw bestelling naar de keuken en het eten terug</td><td>De <b>API</b>: berichtjes tussen browser en server</td><td><code>backend/api/</code></td></tr>
+	<tr><td>👨‍🍳 <b>De keuken</b>: daar wordt het eten gemaakt en gecontroleerd</td><td>De <b>backend</b>: PHP-code op de server</td><td><code>backend/src/</code></td></tr>
+	<tr><td>🧊 <b>De voorraadkast</b>: waar al het eten bewaard wordt</td><td>De <b>database</b> (MySQL)</td><td><code>database/schema.sql</code></td></tr>
+	<tr><td>📚 <b>Het fotoalbum aan de muur</b></td><td>De map met <b>geüploade foto's</b></td><td><code>backend/uploads/</code></td></tr>
+</table>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+Jij zit aan tafel en zegt: <i>"Ik wil deze foto leuk vinden!"</i> De ober loopt naar de keuken.
+De kok kijkt of jij wel echt een klant bent (ingelogd). Dan pakt de kok het boek uit de voorraadkast,
+zet er een hartje bij, en de ober komt terug: <i>"Gelukt! Nu heeft de foto 5 hartjes."</i></div>
+<figure><img src="../diagrams/architectuur.svg" alt="Architectuur"><figcaption>Het architectuurdiagram: eetzaal (browser), keuken (server), voorraadkast (MySQL) en fotoalbum (uploads).</figcaption></figure>
+<div class="box zeg"><b class="kop">🎤 Zeg dit</b>
+"Kiekje bestaat uit drie lagen. De <b>frontend</b> is wat je ziet in de browser. Die praat via een <b>API</b> met de
+<b>backend</b> in PHP. De backend bewaart alles in een <b>MySQL-database</b> en slaat foto's op in een map."</div>
+
+<!-- ================================================================== -->
+<h2>3. Wat kan de app allemaal?</h2>
+<table>
+	<tr><th>Onderdeel</th><th>Wat kun je doen?</th></tr>
+	<tr><td>👤 Account</td><td>Registreren, inloggen, uitloggen, naam en bio veranderen</td></tr>
+	<tr><td>🖼️ Profielfoto</td><td>Foto kiezen, inzoomen, verschuiven, draaien. Wie niks kiest krijgt een grijs poppetje.</td></tr>
+	<tr><td>📷 Posts</td><td>Foto plaatsen met tekst en plaats, bewerken, weggooien, link delen</td></tr>
+	<tr><td>❤️ Liken</td><td>Op het hartje klikken, of 2× snel op de foto tikken (dan komt er een groot hartje)</td></tr>
+	<tr><td>💬 Reacties</td><td>Reageren, alle reacties bekijken, reacties liken, reacties weggooien</td></tr>
+	<tr><td>⭕ Stories</td><td>Foto die <b>24 uur</b> blijft staan, liken, erop reageren via een berichtje</td></tr>
+	<tr><td>➕ Volgen</td><td>Mensen volgen en ontvolgen, zien wie jou volgt, voorgestelde vrienden</td></tr>
+	<tr><td>✉️ Berichten</td><td>Privé-berichtjes sturen (DM's), zien of ze gelezen zijn ("Gezien")</td></tr>
+	<tr><td>🔔 Meldingen</td><td>Zien wie jouw foto leuk vond, reageerde of jou ging volgen</td></tr>
+	<tr><td>🔍 Zoeken</td><td>Andere mensen zoeken terwijl je typt</td></tr>
+	<tr><td>📱 Telefoon + 💻 computer</td><td>Op de telefoon een balk onderin, op de computer een balk links</td></tr>
+</table>
+
+<!-- ================================================================== -->
+<h2 class="pb">4. De mappen: waar staat wat?</h2>
+<p>Alle code staat in de map <code>C:\xampp\htdocs\kiekje\kiekje\</code>. Dit zijn de laden van de kast:</p>
+<pre>kiekje/
+├── frontend/        <span class="c">← de eetzaal: wat je ziet (HTML, CSS, JavaScript, React)</span>
+│   ├── index.html   <span class="c">← de voordeur: dit bestand open je in de browser</span>
+│   ├── css/         <span class="c">← de verf: hoe alles eruitziet</span>
+│   ├── js/          <span class="c">← 18 bestanden: wat de knoppen doen</span>
+│   └── vendor/      <span class="c">← React (geleende LEGO-doos)</span>
+├── backend/         <span class="c">← de keuken: PHP op de server</span>
+│   ├── api/         <span class="c">← de deurtjes waar de ober doorheen loopt</span>
+│   ├── src/         <span class="c">← de koks (klassen): Controllers, Repositories, Core</span>
+│   ├── uploads/     <span class="c">← het fotoalbum</span>
+│   └── tests/       <span class="c">← kleine tests voor de koks</span>
+├── database/        <span class="c">← de tekening van de voorraadkast (schema.sql)</span>
+├── tests/e2e/       <span class="c">← de robot die de hele app uitprobeert</span>
+├── diagrams/        <span class="c">← de tekeningen (ERD, klassendiagram, ...)</span>
+├── docs/            <span class="c">← uitleg (dit document, API, architectuur)</span>
+└── vue/             <span class="c">← een los voorbeeldje in Vue</span></pre>
+
+<!-- ================================================================== -->
+<h2>5. De eetzaal: de frontend</h2>
+<p>De frontend is <b>alles wat je ziet</b> in de browser. Het is <b>één pagina</b> (<code>index.html</code>).
+Als je op een knop drukt, laadt de pagina niet opnieuw: het scherm verandert gewoon. Dat heet een
+<b>single-page app</b>.</p>
+
+<h3>Het geheim: het "geheugen" en de "tekenaar"</h3>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+De app heeft een <b>geheugen</b> (<code>state.js</code>). Daarin staat: wie ben jij, op welke pagina ben je, welke foto's zijn er.<br>
+Dan is er een <b>tekenaar</b> (<code>render()</code>). Die kijkt in het geheugen en <b>tekent het hele scherm</b>.<br>
+Druk je op een knop? Dan verandert het geheugen, en de tekenaar tekent alles opnieuw. Net als een
+tekening die je gumt en opnieuw maakt.</div>
+<ol>
+	<li><b>Geheugen</b> (<code>state.js</code>): <code>me</code> = wie ben ik, <code>tab</code> = welke pagina, <code>feedPosts</code> = de foto's.</li>
+	<li><b>Tekenen</b> (<code>render()</code> in <code>layout.js</code>): maakt van het geheugen HTML.</li>
+	<li><b>Knoppen aansluiten</b> (<code>events()</code> in <code>events.js</code>): zegt tegen elke knop wat hij moet doen.</li>
+	<li>Iemand klikt → de knop vraagt iets aan de server → het geheugen verandert → <code>render()</code> tekent opnieuw.</li>
+</ol>
+
+<h3>De 18 JavaScript-bestanden (elk bestand is één kamertje)</h3>
+<table>
+	<tr><th>Bestand</th><th>Wat doet het? (simpel)</th></tr>
+	<tr><td><code>state.js</code></td><td>🧠 Het geheugen van de app</td></tr>
+	<tr><td><code>api.js</code></td><td>🧑‍🍳 De ober: één functie <code>api()</code> die alle bestellingen naar de server brengt</td></tr>
+	<tr><td><code>utils.js</code></td><td>🧰 Gereedschapskist: tijd schrijven ("5 min"), foto's kleiner maken, meldingen laten zien</td></tr>
+	<tr><td><code>session.js</code></td><td>🔑 Wie is er ingelogd? Klopt dat nog met de server?</td></tr>
+	<tr><td><code>navigation.js</code></td><td>🚪 Van pagina wisselen en de juiste dingen ophalen</td></tr>
+	<tr><td><code>posts.js</code></td><td>📷 Liken, reageren, foto plaatsen, bewerken, weggooien</td></tr>
+	<tr><td><code>feed.js</code></td><td>📰 De tijdlijn tekenen: fotokaartjes, reacties, dubbeltik-hartje</td></tr>
+	<tr><td><code>stories.js</code></td><td>⭕ De rondjes bovenaan (stories)</td></tr>
+	<tr><td><code>profile.js</code></td><td>👤 Profiel, volgen, profielfoto met bijsnijden</td></tr>
+	<tr><td><code>messages.js</code></td><td>✉️ Berichtjes (DM's)</td></tr>
+	<tr><td><code>notifications.js</code></td><td>🔔 Meldingen</td></tr>
+	<tr><td><code>search.js</code></td><td>🔍 Zoeken (gemaakt met <b>React</b>)</td></tr>
+	<tr><td><code>auth.js</code></td><td>🚪 Het inlog- en registratiescherm</td></tr>
+	<tr><td><code>icons.js</code></td><td>🖍️ De plaatjes van de knoppen (huisje, hartje, belletje)</td></tr>
+	<tr><td><code>layout.js</code></td><td>🏠 De balken (links, boven, onder) en de tekenaar <code>render()</code></td></tr>
+	<tr><td><code>modals.js</code></td><td>🪟 Pop-up-venstertjes (nieuwe foto, bericht, story)</td></tr>
+	<tr><td><code>events.js</code></td><td>🔌 Sluit alle knoppen aan</td></tr>
+	<tr><td><code>main.js</code></td><td>▶️ De aan-knop: start de app</td></tr>
+</table>
+
+<h3>Voorbeeld: de ober (<code>api.js</code>)</h3>
+<pre><span class="c">// breng een bestelling naar de keuken en wacht op het antwoord</span>
+async function api(path, body) {
+	const res = await fetch(API + path, { ... });   <span class="c">// ober loopt naar de keuken</span>
+	const data = await res.json();                   <span class="c">// ober komt terug met het eten</span>
+	if (res.status === 401) syncUser(null);          <span class="c">// "u bent geen klant meer" → naar inloggen</span>
+	if (data.error) throw new Error(data.error);     <span class="c">// iets mis? vertel het</span>
+	return data;
+}</pre>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+<code>fetch</code> = de ober loopt naar de keuken. <code>await</code> = even <b>wachten</b> tot de ober terug is.
+<code>401</code> betekent: "Jij bent niet (meer) ingelogd."</div>
+
+<h3>Waarom <code>esc()</code>? (tegen stoute tekst)</h3>
+<p>Als iemand als reactie <code>&lt;script&gt;</code> typt, zou de browser dat kunnen uitvoeren als code. De functie <code>esc()</code>
+maakt er gewone letters van. Zo kan niemand stoute code in de app stoppen. Dit heet <b>XSS voorkomen</b>.</p>
+
+<!-- ================================================================== -->
+<h2 class="pb">6. React: de zoekpagina van LEGO</h2>
+<p>De zoekpagina (<code>frontend/js/search.js</code>) is gebouwd met <b>React</b>.</p>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+React is een doos <b>LEGO</b>. Je bouwt kleine blokjes (<b>componenten</b>) en klikt ze in elkaar.<br>
+🧱 <code>Avatar</code> = het blokje met een profielfotootje<br>
+🧱 <code>UserRow</code> = een regeltje met één persoon (foto + naam)<br>
+🧱 <code>SearchPage</code> = de hele zoekpagina, gemaakt van al die blokjes<br>
+Elk blokje heeft een eigen <b>geheugentje</b> (<code>useState</code>): wat heb je getypt, wie is er gevonden.</div>
+<pre>function SearchPage() {
+	const [query, setQuery] = useState('');       <span class="c">// geheugentje: wat is er getypt?</span>
+	const [results, setResults] = useState(null); <span class="c">// geheugentje: wie is er gevonden?</span>
+
+	useEffect(() => {                              <span class="c">// als "query" verandert...</span>
+		<span class="c">// ... wacht 250 ms en vraag dan de server: wie heet zo?</span>
+	}, [query]);
+
+	return html`&lt;input value=${query} onChange=... /&gt; ...`;
+}</pre>
+<ul>
+	<li><b>useState</b> = een geheugentje. Verandert het? Dan tekent React het blokje vanzelf opnieuw.</li>
+	<li><b>useEffect</b> = "doe iets als dit verandert". Hier: zoeken als je typt.</li>
+	<li>We wachten <b>250 milliseconden</b> na het typen, zodat we niet bij elke letter de server lastigvallen.</li>
+	<li><b>htm</b> is een klein hulpje waarmee we React-code kunnen schrijven zonder extra programma's (geen "build-stap").</li>
+</ul>
+<div class="box zeg"><b class="kop">🎤 Zeg dit</b>
+"De zoekpagina is een React-component. Hij bestaat uit kleinere componenten: <code>SearchPage</code>, <code>UserRow</code> en <code>Avatar</code>.
+Met <code>useState</code> onthoudt hij de zoekterm en de resultaten, en met <code>useEffect</code> zoekt hij live mee terwijl je typt."</div>
+
+<!-- ================================================================== -->
+<h2>7. De ober: de API</h2>
+<p>De API is de <b>lijst met dingen die je aan de keuken mag vragen</b>. Elk deurtje is een PHP-bestand in <code>backend/api/</code>:</p>
+<table>
+	<tr><th>Deurtje</th><th>Waarvoor?</th><th>Voorbeeld-vraag</th></tr>
+	<tr><td><code>auth.php</code></td><td>Inloggen, registreren, profiel</td><td>"Log mij in"</td></tr>
+	<tr><td><code>posts.php</code></td><td>Foto's</td><td>"Geef mij alle foto's"</td></tr>
+	<tr><td><code>interactions.php</code></td><td>Likes en reacties</td><td>"Zet een hartje bij foto 12"</td></tr>
+	<tr><td><code>stories.php</code></td><td>Stories</td><td>"Welke stories zijn er?"</td></tr>
+	<tr><td><code>follows.php</code></td><td>Volgen</td><td>"Ik wil Lisa volgen"</td></tr>
+	<tr><td><code>users.php</code></td><td>Zoeken en profielen</td><td>"Wie heet 'tim'?"</td></tr>
+	<tr><td><code>messages.php</code></td><td>Berichtjes</td><td>"Stuur 'hoi' naar Noor"</td></tr>
+	<tr><td><code>notifications.php</code></td><td>Meldingen</td><td>"Wat is er nieuw voor mij?"</td></tr>
+</table>
+<p>De ober praat in <b>JSON</b>: dat is een briefje met labeltjes, bijvoorbeeld:</p>
+<pre>{ "success": true, "liked": true, "like_count": 5 }   <span class="c">← "gelukt, je vindt hem leuk, er zijn nu 5 hartjes"</span></pre>
+<p>Gaat er iets mis? Dan geeft de server een <b>foutcode</b>: <code>401</code> = niet ingelogd, <code>403</code> = dat mag jij niet,
+<code>404</code> = bestaat niet, <code>422</code> = verkeerd ingevuld. Alle vragen en antwoorden staan in <code>docs/api.md</code>.</p>
+
+<!-- ================================================================== -->
+<h2 class="pb">8. De keuken: de backend (OOP)</h2>
+<p>De backend is geschreven in <b>PHP</b> en is <b>objectgeoriënteerd</b> (<b>OOP</b>). Wat betekent dat?</p>
+<div class="box simpel"><b class="kop">🧸 Heel simpel: koekjes!</b>
+Een <b>klasse</b> is een <b>koekjesvorm</b> 🍪. Een <b>object</b> is een <b>koekje</b> dat je met die vorm maakt.<br>
+Van één vorm kun je veel koekjes maken. In de code: <code>new PostController()</code> = "maak een koekje met de vorm PostController".</div>
+
+<h3>De drie soorten koks</h3>
+<table>
+	<tr><th>Soort</th><th>Map</th><th>Wat doen ze? (simpel)</th></tr>
+	<tr><td>👨‍🍳 <b>Controllers</b></td><td><code>src/Controllers/</code></td><td>De <b>chef-koks</b>. Ze krijgen de bestelling, controleren of alles klopt en bepalen wat er moet gebeuren. Eén chef per onderdeel (posts, stories, berichten...).</td></tr>
+	<tr><td>🧊 <b>Repositories</b></td><td><code>src/Repositories/</code></td><td>De <b>voorraadbeheerders</b>. Alleen zij mogen in de voorraadkast (database). Ze pakken dingen of zetten dingen terug.</td></tr>
+	<tr><td>🧰 <b>Core</b></td><td><code>src/Core/</code></td><td>Het <b>gereedschap</b> van de keuken: de bestelling lezen (<code>Request</code>), het antwoord sturen (<code>Response</code>), wie is er binnen (<code>Session</code>), foto's opbergen (<code>ImageStorage</code>), controleren (<code>Validator</code>).</td></tr>
+</table>
+
+<h3>Overerving: kinderen lijken op hun ouders</h3>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+Er is één <b>oma-kok</b>: <code>Controller</code>. Zij weet hoe je netjes werkt: fouten opruimen, kijken wie er ingelogd is.<br>
+Alle andere koks zijn haar <b>kleinkinderen</b>: <code>PostController</code>, <code>StoryController</code>, enzovoort.
+Ze hebben die kunstjes van oma <b>geërfd</b>, dus ze hoeven het niet opnieuw te leren. Dat heet <b>overerving</b> (<code>extends</code>).</div>
+<pre>abstract class Controller {                   <span class="c">// de oma-kok (je kunt haar zelf niet "bestellen": abstract)</span>
+	public function run() { ... }             <span class="c">// werkt netjes, vangt fouten op</span>
+	abstract protected function handle();     <span class="c">// "elk kleinkind maakt zijn eigen gerecht"</span>
+	protected function currentUser() { ... }  <span class="c">// wie is er ingelogd?</span>
+}
+
+class PostController extends Controller {     <span class="c">// kleinkind: erft alles van oma</span>
+	protected function handle() { ... }       <span class="c">// zijn eigen gerecht: foto's</span>
+}</pre>
+
+<h3>De vier OOP-woorden die je moet kennen</h3>
+<table>
+	<tr><th>Woord</th><th>Simpel</th><th>Waar in Kiekje?</th></tr>
+	<tr><td><b>Overerving</b></td><td>Kind erft kunstjes van ouder</td><td>8 controllers erven van <code>Controller</code>, 8 repositories van <code>Repository</code></td></tr>
+	<tr><td><b>Abstractie</b></td><td>Een "plan" dat je niet zelf gebruikt, alleen de kinderen</td><td><code>abstract class Controller</code>, <code>abstract handle()</code></td></tr>
+	<tr><td><b>Encapsulatie</b></td><td>Een doos met een slot: niet iedereen mag erin</td><td><code>private</code> en <code>protected</code>: alleen de repositories mogen bij de database</td></tr>
+	<tr><td><b>Polymorfisme</b></td><td>Dezelfde vraag, elk kind doet het op zijn eigen manier</td><td><code>run()</code> roept bij elke controller een andere <code>handle()</code> aan</td></tr>
+</table>
+<p>Nog een slim ding: <b><code>LikeTable</code></b>. Liken werkt bij foto's, reacties én stories precies hetzelfde.
+Dus hebben we één klasse gemaakt die we drie keer <b>hergebruiken</b>, in plaats van drie keer dezelfde code te schrijven.</p>
+
+<h3>Hoe een deurtje werkt</h3>
+<p>Een deurtje in <code>backend/api/</code> is heel klein. Het roept alleen de juiste chef-kok:</p>
+<pre>require __DIR__ . '/../bootstrap.php';          <span class="c">// zet de keuken aan (laadt alle klassen)</span>
+(new Kiekje\Controllers\PostController())->run(); <span class="c">// "chef-kok van de foto's, aan het werk!"</span></pre>
+<figure><img src="../diagrams/klassendiagram.svg" alt="Klassendiagram"><figcaption>Het klassendiagram: bovenaan het gereedschap (Core), links de chef-koks (Controllers), rechts de voorraadbeheerders (Repositories). Het witte driehoekje betekent "erft van".</figcaption></figure>
+<div class="box zeg"><b class="kop">🎤 Zeg dit</b>
+"De backend is objectgeoriënteerd. Er zijn twee <b>abstracte basisklassen</b>: <code>Controller</code> en <code>Repository</code>.
+Acht controllers erven van <code>Controller</code> en regelen elk één onderdeel. De repositories doen alle SQL.
+Zo staat elke taak op één plek, en hergebruik ik code, bijvoorbeeld met <code>LikeTable</code>."</div>
+
+<!-- ================================================================== -->
+<h2 class="pb">9. De voorraadkast: de database</h2>
+<p>De database heet <b><code>kiekje</code></b> en heeft <b>9 tabellen</b>. Een tabel is een <b>lijst</b>, zoals een schrift met rijen.</p>
+<table>
+	<tr><th>Tabel</th><th>Wat staat erin?</th></tr>
+	<tr><td><code>users</code></td><td>Alle mensen: naam, e-mail, wachtwoord (geheim gemaakt!), bio, profielfoto</td></tr>
+	<tr><td><code>posts</code></td><td>Alle foto's: wie, welke foto, tekst, plaats</td></tr>
+	<tr><td><code>likes</code></td><td>Wie welke foto leuk vindt</td></tr>
+	<tr><td><code>comments</code></td><td>Alle reacties</td></tr>
+	<tr><td><code>comment_likes</code></td><td>Wie welke reactie leuk vindt</td></tr>
+	<tr><td><code>follows</code></td><td>Wie wie volgt</td></tr>
+	<tr><td><code>messages</code></td><td>Alle berichtjes (en of ze gelezen zijn)</td></tr>
+	<tr><td><code>stories</code></td><td>Alle stories (24 uur zichtbaar)</td></tr>
+	<tr><td><code>story_likes</code></td><td>Wie welke story leuk vindt</td></tr>
+</table>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+Elk ding heeft een <b>nummer</b> (<b>id</b>), zoals een rugnummer bij voetbal. Een like zegt dan:
+"<i>Speler 3 vindt foto 12 leuk.</i>" Zo'n nummer dat naar iets anders wijst heet een <b>vreemde sleutel</b> (foreign key).<br>
+Wordt een account verwijderd? Dan verdwijnen al zijn foto's, likes en berichtjes vanzelf mee (<code>ON DELETE CASCADE</code>).</div>
+<p><b>Meldingen</b> hebben geen eigen tabel. De app kijkt gewoon in de likes, reacties en volgers en maakt daar de meldingen van.
+Zo kloppen ze altijd.</p>
+<figure><img src="../diagrams/erd.svg" alt="ERD"><figcaption>Het ERD: alle 9 tabellen en hoe ze aan elkaar vastzitten. "1 : N" betekent: één gebruiker kan veel foto's hebben.</figcaption></figure>
+
+<!-- ================================================================== -->
+<h2 class="pb">10. Zo gaat het stap voor stap</h2>
+
+<h3>📷 Een foto plaatsen</h3>
+<ol>
+	<li>Je drukt op <b>Maken (＋)</b> en kiest een foto.</li>
+	<li>De browser maakt de foto <b>kleiner</b> (max. 1080 pixels), zodat hij snel verstuurd wordt.</li>
+	<li>Je typt een tekstje en drukt op <b>Plaatsen</b>.</li>
+	<li>De ober brengt de foto naar <code>posts.php</code>, en de <code>PostController</code> gaat aan het werk.</li>
+	<li>De chef kijkt: <b>ben je ingelogd?</b> Zo nee: fout 401.</li>
+	<li><code>ImageStorage</code> kijkt: <b>is dit echt een foto?</b> (en geen stout programmaatje vermomd als foto). Zo nee: fout 422.</li>
+	<li>De foto gaat in het fotoalbum (<code>uploads/</code>) met een <b>willekeurige naam</b>.</li>
+	<li><code>PostRepository</code> schrijft in de database: "nieuwe foto van jou".</li>
+	<li>De ober komt terug en je foto staat <b>bovenaan de tijdlijn</b>. 🎉</li>
+</ol>
+<figure><img src="../diagrams/activity-diagram.svg" alt="Activity diagram"><figcaption>Het activity diagram van precies dit verhaal, in vier banen: jij, de browser, de server en de opslag.</figcaption></figure>
+
+<h3>❤️ Een foto liken</h3>
+<ol>
+	<li>Je tikt op het hartje (of 2× op de foto).</li>
+	<li>De ober vraagt: "zet een hartje bij foto 12" (<code>interactions.php?action=like</code>).</li>
+	<li><code>LikeTable</code> kijkt: stond er al een hartje? Dan gaat het <b>weg</b>. Zo niet, dan komt het <b>erbij</b>.</li>
+	<li>Het nieuwe aantal hartjes gaat terug en het scherm wordt opnieuw getekend.</li>
+	<li>Slim: de app stuurt nooit twee hartjes-verzoeken tegelijk. Anders zou de tweede het hartje weer weghalen.</li>
+</ol>
+
+<h3>✉️ Een berichtje sturen</h3>
+<ol>
+	<li>Je opent een gesprek. De server markeert de berichten van de ander als <b>gelezen</b>.</li>
+	<li>Je typt "hoi" en drukt op Enter. De server controleert: ingelogd? bestaat de ontvanger? niet naar jezelf? niet te lang?</li>
+	<li>Het bericht gaat de database in.</li>
+	<li>De app van de ander kijkt <b>elke 4 seconden</b> of er iets nieuws is (bij een open gesprek) en elke 15 seconden voor het rode rondje.</li>
+	<li>Heeft de ander het gelezen? Dan zie jij <b>"Gezien"</b>.</li>
+</ol>
+<figure><img src="../diagrams/sequentiediagram-dm.svg" alt="Sequentiediagram"><figcaption>Het sequentiediagram: van boven naar beneden zie je wie wanneer wat tegen wie zegt.</figcaption></figure>
+
+<h3>🔑 Inloggen</h3>
+<ol>
+	<li>Je typt je naam (of e-mail) en wachtwoord.</li>
+	<li>De server zoekt jou op en vergelijkt het wachtwoord met de <b>geheime versie</b> (hash) in de database.</li>
+	<li>Klopt het? Dan krijg je een <b>armbandje</b> (een <b>sessie-cookie</b>), net als in een pretpark. Bij elke vraag laat de browser dat armbandje zien.</li>
+</ol>
+
+<!-- ================================================================== -->
+<h2 class="pb">11. Veiligheid: de sloten op de deur</h2>
+<table>
+	<tr><th>Gevaar</th><th>Hoe beschermen we?</th><th>Simpel</th></tr>
+	<tr><td>Iemand steelt de database met wachtwoorden</td><td><b>Hash &amp; salt</b> met <code>password_hash()</code> (bcrypt)</td><td>We bewaren het wachtwoord niet, maar een <b>soep</b> ervan. Van soep kun je de groenten niet meer terugmaken. En elke soep krijgt een eigen snufje zout (salt).</td></tr>
+	<tr><td><b>SQL-injectie</b>: stoute tekst die de database commando's geeft</td><td><b>Prepared statements</b> (PDO)</td><td>We geven de database een <b>invulformulier</b>. Wat jij typt komt altijd in een vakje, en wordt nooit een commando.</td></tr>
+	<tr><td><b>XSS</b>: stoute code in een reactie</td><td><code>esc()</code> in de frontend, React doet het zelf</td><td>Van <code>&lt;script&gt;</code> maken we gewone letters.</td></tr>
+	<tr><td>Iemand past jouw foto aan</td><td>Server controleert <b>eigenaarschap</b> (fout 403)</td><td>Alleen jij mag aan jouw tekening kleuren.</td></tr>
+	<tr><td>Een vermomd programma als "foto"</td><td><code>ImageStorage</code> kijkt in het bestand zelf, <code>.htaccess</code> blokkeert scripts</td><td>We kijken in het cadeautje, niet alleen naar het papiertje.</td></tr>
+	<tr><td>Iemand steelt je armbandje (sessie)</td><td><code>httponly</code>-cookie, nieuw sessie-id bij inloggen</td><td>Je armbandje kan niet door stoute code worden gepakt, en je krijgt elke keer een nieuwe.</td></tr>
+	<tr><td>Een andere site doet iets namens jou (<b>CSRF</b>)</td><td><code>SameSite=Lax</code> + account-acties alleen via POST</td><td>Je armbandje werkt alleen in ons eigen pretpark.</td></tr>
+	<tr><td>Foutmeldingen verklappen geheimen</td><td>Browser krijgt alleen "Serverfout."</td><td>We zeggen niet wat er in de keuken misging.</td></tr>
+</table>
+<div class="box zeg"><b class="kop">🎤 Zeg dit</b>
+"Wachtwoorden worden gehasht met bcrypt, met een unieke salt per wachtwoord. Tegen SQL-injectie gebruik ik overal prepared statements.
+De server controleert bij elke actie of je ingelogd bent en of iets echt van jou is."</div>
+
+<!-- ================================================================== -->
+<h2>12. Testen: de robot die alles uitprobeert</h2>
+<div class="box simpel"><b class="kop">🧸 Heel simpel</b>
+We hebben een <b>robot</b> 🤖 gemaakt die de app voor ons uitprobeert. Hij opent de browser, maakt accounts,
+plaatst foto's, liket, stuurt berichtjes... en kijkt of alles goed gaat. Zo hoeven wij niet elke keer alles zelf te klikken.</div>
+<table>
+	<tr><th>Soort test</th><th>Hoeveel</th><th>Wat test het?</th><th>Starten</th></tr>
+	<tr><td><b>Browsertests</b> (Puppeteer)</td><td>9</td><td>De hele app, zoals een echte gebruiker klikt</td><td><code>cd tests/e2e</code> → <code>npm test</code></td></tr>
+	<tr><td><b>Unit tests</b> (PHPUnit)</td><td>23</td><td>Kleine stukjes van de keuken apart: de controleur, het fotoalbum, de oma-kok</td><td><code>vendor/bin/phpunit</code></td></tr>
+</table>
+<p><b>Belangrijk:</b> de robot speelt in een <b>aparte speeltuin</b>. Hij gebruikt een eigen database (<code>kiekje_test</code>) en een eigen kopie van de app.
+Zo komen er nooit test-accounts of test-foto's in de echte app. Na het testen ruimt de robot alles weer op.
+Dit heet <b>scheiding tussen test- en live-omgeving</b>.</p>
+
+<!-- ================================================================== -->
+<h2>13. De tekeningen (diagrammen)</h2>
+<p>In de map <code>diagrams/</code> staan tekeningen van de app. Ze worden gemaakt door <code>genereer-diagrammen.js</code>.</p>
+<table>
+	<tr><th>Tekening</th><th>Wat laat het zien? (simpel)</th></tr>
+	<tr><td><b>ERD</b></td><td>De voorraadkast: alle 9 tabellen en hoe ze vastzitten</td></tr>
+	<tr><td><b>Klassendiagram</b></td><td>Alle koks (klassen) en wie van wie erft</td></tr>
+	<tr><td><b>Domeinmodel</b></td><td>De "dingen" in de app (gebruiker, foto, reactie...) zonder code</td></tr>
+	<tr><td><b>Use case diagram</b></td><td>Wat een bezoeker en een ingelogde gebruiker kunnen doen</td></tr>
+	<tr><td><b>Activity diagram</b></td><td>De stappen van een foto plaatsen</td></tr>
+	<tr><td><b>Sequentiediagram</b></td><td>Wie zegt wat tegen wie bij een berichtje</td></tr>
+	<tr><td><b>Architectuur</b></td><td>Het restaurant: eetzaal, keuken, voorraadkast</td></tr>
+	<tr><td><b>Sitemap</b></td><td>Alle schermen van de app</td></tr>
+	<tr><td><b>Wireframes</b></td><td>Een schets van het scherm op telefoon en computer</td></tr>
+</table>
+<figure><img src="../diagrams/usecase-diagram.svg" alt="Use case diagram"><figcaption>Use case diagram: wat kan iedereen doen?</figcaption></figure>
+
+<!-- ================================================================== -->
+<h2 class="pb">14. Spiekbriefje voor de presentatie (± 5 minuten)</h2>
+<div class="box zeg"><b class="kop">1. Wat is het? (30 sec)</b>
+"Ik heb Kiekje gemaakt: een app zoals Instagram. Je kunt foto's en stories delen, liken, reageren, mensen volgen en berichten sturen."</div>
+<div class="box zeg"><b class="kop">2. Laat de app zien (1,5 min)</b>
+Log in als <b>lisa_natuur</b> (wachtwoord <code>Kiekje2026!</code>). Laat zien: de feed → dubbeltik op een foto (groot hartje) →
+reacties openen → een story bekijken → een berichtje sturen → meldingen (belletje) → zoeken → je profiel met profielfoto bijsnijden.</div>
+<div class="box zeg"><b class="kop">3. Hoe zit het in elkaar? (1 min) — laat het architectuurdiagram zien</b>
+"De frontend is HTML, CSS en JavaScript, en de zoekpagina is een React-component. Die praat via een API met de backend in PHP.
+Alles staat in een MySQL-database met 9 tabellen — hier is het ERD."</div>
+<div class="box zeg"><b class="kop">4. OOP (1 min) — laat het klassendiagram zien</b>
+"De backend is objectgeoriënteerd. Een abstracte <code>Controller</code> met acht subklassen, een abstracte <code>Repository</code> met de SQL.
+Overerving, abstractie, encapsulatie en hergebruik met <code>LikeTable</code>."</div>
+<div class="box zeg"><b class="kop">5. Veiligheid en testen (1 min)</b>
+"Wachtwoorden zijn gehasht met bcrypt en een salt. Prepared statements tegen SQL-injectie. De server controleert eigenaarschap.
+Ik heb 23 unit tests en 9 browsertests, die in een aparte testdatabase draaien, zodat de echte data nooit geraakt wordt."</div>
+
+<!-- ================================================================== -->
+<h2>15. Vragen die de docent kan stellen</h2>
+<table>
+	<tr><th>Vraag</th><th>Jouw antwoord</th></tr>
+	<tr><td>Waarom sla je het wachtwoord niet gewoon op?</td><td>Als de database gestolen wordt, kunnen ze de wachtwoorden niet lezen. Ik sla alleen een <b>hash</b> op (bcrypt) met een <b>salt</b>, zodat twee dezelfde wachtwoorden toch anders zijn.</td></tr>
+	<tr><td>Wat is SQL-injectie en hoe voorkom je het?</td><td>Stoute tekst die de database een commando geeft. Ik gebruik <b>prepared statements</b>: de invoer gaat altijd in een apart vakje (<code>?</code>) en wordt nooit uitgevoerd.</td></tr>
+	<tr><td>Wat is het verschil tussen een klasse en een object?</td><td>Een klasse is de <b>vorm</b> (bijv. <code>PostController</code>), een object is wat je ermee <b>maakt</b> (<code>new PostController()</code>).</td></tr>
+	<tr><td>Waar zie je overerving?</td><td><code>class PostController extends Controller</code>. Alle 8 controllers erven <code>run()</code> en <code>currentUser()</code> van <code>Controller</code>.</td></tr>
+	<tr><td>Waarom is Controller abstract?</td><td>Je gebruikt hem nooit los; hij is een basis. Elke subklasse <b>moet</b> zelf <code>handle()</code> maken.</td></tr>
+	<tr><td>Wat doet een Repository?</td><td>Daar staat alle SQL. Zo schrijft een controller zelf geen SQL, en staat alles over de database op één plek.</td></tr>
+	<tr><td>Waar gebruik je React?</td><td>De zoekpagina: componenten <code>SearchPage</code>, <code>UserRow</code>, <code>Avatar</code>, met <code>useState</code> en <code>useEffect</code>.</td></tr>
+	<tr><td>Hoe weet de server wie je bent?</td><td>Na inloggen krijg je een <b>sessie-cookie</b>. PHP onthoudt bij die sessie jouw gebruikers-id.</td></tr>
+	<tr><td>Wat gebeurt er als ik andermans foto probeer te verwijderen?</td><td>De server controleert of de foto van jou is. Zo niet: fout <b>403</b> "Dit is niet jouw post."</td></tr>
+	<tr><td>Hoe test je?</td><td>9 browsertests met Puppeteer (de hele app) en 23 unit tests met PHPUnit (losse klassen). Ze draaien in een aparte testdatabase.</td></tr>
+	<tr><td>Waarom hebben meldingen geen tabel?</td><td>Ze worden afgeleid uit likes, reacties en volgers. Zo kunnen ze nooit verkeerd zijn: haalt iemand zijn like weg, dan verdwijnt de melding ook.</td></tr>
+	<tr><td>Wat zou je nog verbeteren?</td><td>Een knop om je account te verwijderen (AVG), een limiet op inlogpogingen, en locatiegegevens (EXIF) uit foto's halen op de server.</td></tr>
+</table>
+
+<!-- ================================================================== -->
+<h2>16. Woordenlijst</h2>
+<table>
+	<tr><th>Woord</th><th>Heel simpel</th></tr>
+	<tr><td>Frontend</td><td>Wat je ziet (de eetzaal)</td></tr>
+	<tr><td>Backend</td><td>Wat op de server gebeurt (de keuken)</td></tr>
+	<tr><td>API</td><td>De ober: de afspraken hoe browser en server praten</td></tr>
+	<tr><td>JSON</td><td>Een briefje met labeltjes waarin de ober praat</td></tr>
+	<tr><td>Database</td><td>De voorraadkast waar alles bewaard wordt</td></tr>
+	<tr><td>Tabel</td><td>Een lijst in de database, zoals een schrift met rijen</td></tr>
+	<tr><td>id / sleutel</td><td>Het rugnummer van een ding</td></tr>
+	<tr><td>Klasse</td><td>De koekjesvorm</td></tr>
+	<tr><td>Object</td><td>Het koekje</td></tr>
+	<tr><td>Overerving</td><td>Een kind erft kunstjes van zijn ouder</td></tr>
+	<tr><td>Abstract</td><td>Een plan dat alleen de kinderen echt gebruiken</td></tr>
+	<tr><td>Encapsulatie</td><td>Een doos met een slot</td></tr>
+	<tr><td>Component (React)</td><td>Een LEGO-blokje</td></tr>
+	<tr><td>State (useState)</td><td>Het geheugentje van een blokje</td></tr>
+	<tr><td>render()</td><td>De tekenaar die het scherm maakt</td></tr>
+	<tr><td>Sessie / cookie</td><td>Het armbandje in het pretpark</td></tr>
+	<tr><td>Hash</td><td>Soep van je wachtwoord: niet meer terug te maken</td></tr>
+	<tr><td>Salt</td><td>Een snufje zout, anders bij elk wachtwoord</td></tr>
+	<tr><td>Prepared statement</td><td>Een invulformulier voor de database</td></tr>
+	<tr><td>Unit test</td><td>Eén klein stukje apart testen</td></tr>
+	<tr><td>End-to-end test</td><td>De robot die de hele app uitprobeert</td></tr>
+	<tr><td>Single-page app</td><td>Eén pagina die van inhoud wisselt zonder opnieuw te laden</td></tr>
+</table>
+<p class="klein">Meer details: <code>README.md</code>, <code>docs/architectuur.md</code>, <code>docs/api.md</code>, <code>backend/README.md</code> en <code>docs/documentatie.md</code>. Succes met je presentatie! 🍀</p>
+
+</body>
+</html>
