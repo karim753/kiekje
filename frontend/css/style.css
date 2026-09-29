@@ -547,6 +547,9 @@ button {
 	min-height: 0;
 	width: 100%;
 	object-fit: contain;
+	cursor: pointer;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
 .story-nav {
 	position: absolute;

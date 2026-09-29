@@ -261,6 +261,13 @@ function events() {
 		on('closestory', closeStory);
 		on('storyprev', () => storyGo(-1));
 		on('storynext', () => storyGo(1));
+		// tikken op de foto: linkerkant (eerste derde) = vorige, de rest = volgende
+		const photo = document.querySelector('.story-img');
+		if (photo)
+			photo.onclick = e => {
+				const r = photo.getBoundingClientRect();
+				storyGo(e.clientX - r.left < r.width / 3 ? -1 : 1);
+			};
 		on('storylike', toggleStoryLike);
 		on('storydelete', deleteStory);
 		on('story-reply-send', sendStoryReply);
