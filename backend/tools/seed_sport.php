@@ -134,6 +134,13 @@ unset($a);
 
 $tmp = sys_get_temp_dir() . '/kiekje_sport_' . bin2hex(random_bytes(4));
 mkdir($tmp);
+// tijdelijke map altijd opruimen, ook als het script halverwege stopt
+register_shutdown_function(function () use ($tmp) {
+    array_map('unlink', glob("$tmp/out/*") ?: []);
+    @rmdir("$tmp/out");
+    @unlink("$tmp/spec.json");
+    @rmdir($tmp);
+});
 file_put_contents("$tmp/spec.json", json_encode($spec, JSON_UNESCAPED_UNICODE));
 $script = realpath(__DIR__ . '/../../tools/render_cards.ps1');
 passthru('powershell -NoProfile -ExecutionPolicy Bypass -File ' . escapeshellarg($script) . ' ' . escapeshellarg("$tmp/spec.json") . ' ' . escapeshellarg("$tmp/out"), $code);
@@ -159,20 +166,30 @@ $commons = function (string $title) use ($tmp) {
         $api = 'https://commons.wikimedia.org/w/api.php?' . http_build_query([
             'action' => 'query', 'format' => 'json', 'titles' => "File:$title", 'prop' => 'imageinfo',
         ] + $extra);
-        return current(json_decode((string) @file_get_contents($api, false, $ctx), true)['query']['pages'] ?? [])['imageinfo'][0] ?? null;
+        for ($try = 0; $try < 5; $try++) {
+            $json = json_decode((string) @file_get_contents($api, false, $ctx), true);
+            if (isset($json['query'])) {
+                return current($json['query']['pages'])['imageinfo'][0] ?? null;
+            }
+            sleep(10 * ($try + 1)); // geweigerd (429): even wachten
+        }
+        return null;
     };
     // Wikimedia weigert het downloaden van originelen (HTTP 429), dus altijd een echte miniatuur
-    // vragen die smaller is dan het origineel (max. 1080 px breed)
+    // vragen die smaller is dan het origineel, en alleen in een standaardmaat (andere maten geven ook een 429)
     $meta = $info(['iiprop' => 'size|extmetadata']);
-    $thumb = $meta ? $info(['iiprop' => 'url', 'iiurlwidth' => min(1080, $meta['width'] - 1)]) : null;
+    $width = current(array_filter([960, 640, 500, 330, 250], fn($w) => $w < ($meta['width'] ?? 0)));
+    $thumb = $width ? $info(['iiprop' => 'url', 'iiurlwidth' => $width]) : null;
     $bytes = false;
-    for ($try = 0; $thumb && $try < 4 && !$bytes; $try++) {
-        sleep($try ? 5 * $try : 1);
+    $status = 'geen miniatuur';
+    for ($try = 0; $thumb && $try < 5 && !$bytes; $try++) {
+        sleep($try ? 15 * $try : 4); // rustig aan, anders volgt alsnog een 429
         $bytes = @file_get_contents($thumb['thumburl'], false, $ctx);
+        $status = $http_response_header[0] ?? 'geen antwoord';
     }
     $info = $meta;
     if (!$bytes || !str_starts_with($bytes, "\xFF\xD8")) {
-        throw new RuntimeException("Foto downloaden mislukt: $title");
+        throw new RuntimeException("Foto downloaden mislukt: $title ($status)");
     }
     $name = 'photo-' . md5($title) . '.jpg';
     file_put_contents("$tmp/out/$name", $bytes);
@@ -182,7 +199,8 @@ $commons = function (string $title) use ($tmp) {
     return [$name, "📸 $artist, $license (Wikimedia Commons)"];
 };
 foreach ($todo as $name => &$a) {
-    foreach ($a['photos'] ?? [] as &$ph) {
+    $a['photos'] ??= [];
+    foreach ($a['photos'] as &$ph) {
         [$ph['path'], $ph['credit']] = $commons($ph[0]);
     }
     unset($ph);
@@ -237,10 +255,5 @@ foreach ($postIds as [$postId, $owner]) {
     }
 }
 $pdo->commit();
-
-array_map('unlink', glob("$tmp/out/*"));
-@rmdir("$tmp/out");
-@unlink("$tmp/spec.json");
-@rmdir($tmp);
 
 echo 'Aangemaakt: ' . implode(', ', array_keys($todo)) . " (wachtwoord: " . PASSWORD . ")\n";
